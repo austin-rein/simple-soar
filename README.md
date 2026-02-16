@@ -10,7 +10,7 @@ Personal project to develop an API based SOAR application
     - VirusTotal
 - Hash data enrichment:
     - VirusTotal
-- Automated actions:
+- Automated Ansible playbooks:
     - Firewall level block
     - Endpoint level block
 - Report tracking DB (PostgreSQL)
@@ -21,3 +21,5 @@ Personal project to develop an API based SOAR application
     - Teams
     - PagerDuty(?)
     - Signal
+- Containerized deployment
+- Web frontend for reviewing active reports
