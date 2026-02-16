@@ -10,14 +10,16 @@ load_dotenv()
 app = FastAPI()
 
 # Standard input format for API requests
-class IPRequest(BaseModel):
-    ip: str
+class ThreatReport(BaseModel):
+    value: str 
+    type: str # ip, domain, or hash
+    
 
 # Standard response format API requests
-class IPReport(BaseModel):
+class AnalysisResults(BaseModel):
     ip: str
+    block: bool
     threat_score: float
-    action: str
 
 # Returns a basic message explaining what the API is
 @app.get("/")
@@ -25,10 +27,11 @@ async def root():
     return {"message": "Simple SOAR: A basic IP data ennrichment API"}
 
 # Primary endpoint used for reporting IP addrsses
-@app.post("/report/", response_model=IPReport)
-async def report_ip(request: IPRequest):
+@app.post("/report/", response_model=AnalysisResults)
+async def report_ip(request: ThreatReport):
     try:
-        ip_address = request.ip
+        # Ignoring type value for now
+        ip_address = request.value
         virus_total_data = enrich_ip_data(ip_address)
         
         engine_analysis_stats = virus_total_data.get("data", {}).get("attributes", {}).get("last_analysis_stats", {})
@@ -46,16 +49,14 @@ async def report_ip(request: IPRequest):
             threat_score = 0.0
 
         if threat_score > 0.80:
-            recommended_action = "block"
-        elif threat_score > 0:
-            recommended_action = "warn"
+            block_threat = True
         else:
-            recommended_action = "allow"
+            block_threat = False
 
         return {
             "ip": ip_address,
-            "threat_score": round(threat_score, 2),
-            "action" : recommended_action
+            "block": block_threat,
+            "threat_score": round(threat_score, 2)
         }
 
     except requests.exceptions.HTTPError as e:

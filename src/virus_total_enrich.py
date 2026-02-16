@@ -12,7 +12,8 @@ def enrich_ip_data(ip_address):
         "x-apikey": VT_API_KEY
     }
     response = requests.get(virus_total_url, headers=headers)
-
     response.raise_for_status()
 
+    
+    
     return response.json()
