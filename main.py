@@ -5,19 +5,9 @@ import requests
 # Load custom module
 from src.virus_total_enrich import enrich_ip_data
 from config import env_variables
+from models import *
 
 app = FastAPI()
-
-# Standard input format for API requests
-class ThreatReport(BaseModel):
-    value: str 
-    type: str # ip, domain, or hash
-    
-# Standard response format API requests
-class AnalysisResults(BaseModel):
-    ip: str
-    block: bool
-    threat_score: float
 
 # Returns a basic message explaining what the API is
 @app.get("/")
