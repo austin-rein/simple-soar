@@ -19,3 +19,9 @@ async def root():
 async def report_ip(request: ThreatReport):
     pass
     # Re-writing for modulatiry
+
+'''
+User post -> API
+API -> Validate input (Pydantic) -> Query other APIs in parallel -> Aggregate results
+Determine action based on aggregate results -> Notify user + perform background alert/action
+'''
