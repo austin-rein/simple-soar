@@ -1,10 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import Dict, Any
 import requests
 
 # Load custom module
-from src.virus_total_enrich import enrich_ip_data
-from config import env_variables
+from src.virus_total_requests import vt_scan_ip_address
+from config import env_variables # object that contains the .env variables
 from models import *
 
 app = FastAPI()
@@ -14,11 +15,29 @@ app = FastAPI()
 async def root():
     return {"message": "Simple SOAR: A basic IP data ennrichment API"}
 
+
 # Primary endpoint used for reporting IP addrsses
-@app.post("/report/", response_model=AnalysisResults)
-async def report_ip(request: ThreatReport):
-    pass
-    # Re-writing for modulatiry
+@app.post("/report/ip_address", response_model=TestModel)
+async def scan_ip_address(report: ThreatReport):
+    # Run the "Gauntlet"
+
+    vt_results = vt_scan_ip_address(report.value, env_variables.VT_API_KEY)
+
+    vt_malicious_count = vt_results['verdict']['malicious_score']
+
+    #aipdb_results = aipdb_scan_ip_address(report.value, env_variables.AIPDB_API_KEY)
+    #gn_results = gn_scan_ip_address(report.value, env_variables.GN_API_KEY)
+    #shodan_results = shodan_scan_ip_address(report.value, env_variables.SHODAN_API_KEY)
+    #av_results
+
+    return {
+        "ip" : report.value,
+        "block": vt_malicious_count > 0,
+        "threat_score": vt_malicious_count,
+        "verdict": vt_results['verdict'],
+        "context": vt_results['context']
+    }
+
 
 '''
 User post -> API
