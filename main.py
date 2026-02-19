@@ -4,7 +4,7 @@ from typing import Dict, Any
 import requests
 
 # Load custom module
-from src.virus_total_requests import vt_scan_ip_address
+from src.virus_total_scan import vt_scan_ip_address
 from config import env_variables # object that contains the .env variables
 from models import *
 
@@ -17,12 +17,11 @@ async def root():
 
 
 # Primary endpoint used for reporting IP addrsses
-@app.post("/report/ip_address", response_model=TestModel)
+@app.post("/report/ip_address/", response_model=TestModel)
 async def scan_ip_address(report: ThreatReport):
     # Run the "Gauntlet"
 
     vt_results = vt_scan_ip_address(report.value, env_variables.VT_API_KEY)
-
     vt_malicious_count = vt_results['verdict']['malicious_score']
 
     #aipdb_results = aipdb_scan_ip_address(report.value, env_variables.AIPDB_API_KEY)
@@ -37,6 +36,15 @@ async def scan_ip_address(report: ThreatReport):
         "verdict": vt_results['verdict'],
         "context": vt_results['context']
     }
+
+
+@app.post("/report/domain/",response_model=TestModel)
+async def scan_domain_name(report: ThreatReport):
+    pass
+
+@app.post("/report/hash/",response_model=TestModel)
+async def scan_hash(report: ThreatReport)
+    pass
 
 
 '''
