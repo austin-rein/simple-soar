@@ -7,6 +7,7 @@ import requests
 from src.virus_total_scan import vt_scan_ip_address
 from src.abuseipdb_scan import aipdb_scan_ip_address
 from src.greynoise_scan import gn_scan_ip_address
+from src.shodan_scan import shodan_scan_ip_address
 
 from config import env_variables # object that contains the .env variables
 from models import *
@@ -30,10 +31,11 @@ async def scan_ip_address(report: ThreatReport):
     aipdb_results = aipdb_scan_ip_address(report.value, env_variables.AIPDB_API_KEY)
 
     gn_results = gn_scan_ip_address(report.value, env_variables.GN_API_KEY)
-    #shodan_results = shodan_scan_ip_address(report.value, env_variables.SHODAN_API_KEY)
+    shodan_results = shodan_scan_ip_address(report.value, env_variables.SHODAN_API_KEY)
     #av_results
 
     return {
+        # Why are my quotation marks not consistent?
         "ip" : report.value,
         "block": vt_malicious_count > 0,
         "threat_score": vt_malicious_count,
@@ -42,7 +44,9 @@ async def scan_ip_address(report: ThreatReport):
         "aipdb_verdict": aipdb_results['verdict'],
         "aipdb_context": aipdb_results['context'],
         "gn_verdict": gn_results['verdict'],
-        "gn_context": gn_results['context']
+        "gn_context": gn_results['context'],
+        "shodan_verdict": shodan_results['verdict'],
+        "shodan_context": shodan_results['context']
     }
 
 

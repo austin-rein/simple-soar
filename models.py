@@ -21,3 +21,5 @@ class TestModel(BaseModel):
     aipdb_context: Dict[str, Any]
     gn_verdict: Dict[str, Any]
     gn_context: Dict[str, Any]
+    shodan_verdict: Dict[str, Any]
+    shodan_context: Dict[str, Any]
