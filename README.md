@@ -6,6 +6,7 @@ Personal project to develop an API based SOAR application
     - VirusTotal
     - AbuseIPDB
     - GreyNoise
+    - Shodan
 - Domain data enrichment:
     - VirusTotal
 - Hash data enrichment:
