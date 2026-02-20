@@ -12,8 +12,8 @@ Personal project to develop an API based SOAR application
 - Hash data enrichment:
     - VirusTotal
 - Automated Ansible playbooks:
-    - Firewall level block
-    - Endpoint level block
+    - Firewall level block (opnsense/cisco ios)
+    - Endpoint level block (iptables/nftables)
 - Report tracking DB (PostgreSQL)
 - Report cache (Valkey)
 - Alert platforms:
