@@ -15,5 +15,9 @@ class TestModel(BaseModel):
     ip: str
     block: bool
     threat_score: float
-    verdict: Dict[str, Any]
-    context: Dict[str, Any]
+    vt_verdict: Dict[str, Any]
+    vt_context: Dict[str, Any]
+    aipdb_verdict: Dict[str, Any]
+    aipdb_context: Dict[str, Any]
+    gn_verdict: Dict[str, Any]
+    gn_context: Dict[str, Any]
