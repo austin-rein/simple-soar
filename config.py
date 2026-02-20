@@ -5,6 +5,7 @@ class EnvVariables(BaseSettings):
     AIPDB_API_KEY: str
     GN_API_KEY: str
     SHODAN_API_KEY: str
+    AV_API_KEY: str
 
     class Config:
         env_file = ".env"

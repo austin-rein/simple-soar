@@ -1,7 +1,5 @@
 import requests
 
-from config import env_variables
-
 def vt_scan_ip_address(ip_address, api_key):
     url = f"https://www.virustotal.com/api/v3/ip_addresses/{ip_address}"
     headers = {

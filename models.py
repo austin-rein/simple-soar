@@ -23,3 +23,5 @@ class TestModel(BaseModel):
     gn_context: Dict[str, Any]
     shodan_verdict: Dict[str, Any]
     shodan_context: Dict[str, Any]
+    av_verdict: Dict[str, Any]
+    av_context: Dict[str, Any]
