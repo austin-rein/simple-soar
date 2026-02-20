@@ -7,7 +7,7 @@ def av_scan_ip_address(ip_address, api_key):
     }
 
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=3)
         response.raise_for_status()
 
         data = response.json()

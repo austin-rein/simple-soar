@@ -54,3 +54,9 @@ def vt_scan_ip_address(ip_address, api_key):
         return {"error": f"HTTP Error: {e}"}
     except Exception as e:
         return {"error": f"General Error: {e}"}
+    
+def vt_scan_domain(domain_name, api_key):
+    pass
+
+def vt_scan_hash(hash, api_key):
+    pass
