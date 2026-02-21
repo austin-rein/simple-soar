@@ -1,16 +1,12 @@
 from pydantic import BaseModel
 from typing import Dict, Any
 
-class ThreatReport(BaseModel):
-    value: str 
-    type: str # ip, domain, or hash
-    
-class AnalysisResults(BaseModel):
-    ip: str
+class Verdict(BaseModel):
+    value: str
     block: bool
-    threat_score: float
+    threat_score: int
 
-#Copy of AnalysisResults for now
+#Testing model
 class TestModel(BaseModel):
     ip: str
     block: bool

@@ -9,8 +9,8 @@ The API now is able to call all of the APIs asynchonously. I need to define the 
 
 Once everything is "fully working" I will start on the 
 
-## ROADMAP:
-Threat Intelligence Tools:
+# ROADMAP:
+## Threat Intelligence Tools:
 - [ ] VirusTotal (IP, Domain, Hash, URL)
 - [ ] AbuseIPDB (IP)
 - [ ] GreyNoise (IP)
@@ -30,32 +30,32 @@ Threat Intelligence Tools:
 - [ ] Project Honey Pot (IP)
 - [ ] CIRCL Hashlookup (Hash)
 
-Automated Response:
-- Ansible playbooks:
-- Endpoint level blocking (pf, iptables, nftables):
+## Automated Response:
+### Ansible playbooks:
+#### Endpoint level blocking (pf, iptables, nftables):
 - [ ] pf
 - [ ] nftables
 - [ ] iptables
-- Network level blocking (OpnSense, Cisco IOS)
-- Alert platforms:
+#### Network level blocking (OpnSense, Cisco IOS)
+### Alert platforms:
 - [ ] Slack
 - [ ] Mattermost
 - [ ] Signal
 - [ ] Teams(?)
 - [ ] PagerDuty(?)
 
-Databases:
+## Databases:
 - [ ] Postgresql (Report reviewing and retention) 
 - [ ] Valkey (Response data caching)
 
-Deployment options:
+## Deployment options:
 - [ ] Baremetal
 - [ ] Container (Podman, Kubernetes)
 
-Misc:
+## Misc:
 - Web frontend for viewing full report data (Svelte + Tailwind?)
 
-## Resources:
+# Resources:
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [Requests](https://requests.readthedocs.io/en/latest/)
 - [Pydantic](https://docs.pydantic.dev/latest/)
