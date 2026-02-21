@@ -2,28 +2,63 @@
 Personal project to develop an API based SOAR application
 
 ## Current status:
-The API is currently able to pull data from five sources for IP enrichment data. I will work on creating a new file to run everything asynchronously then consolidate the verdict data into a final score to be used to determine the response. Once the analysis logic is completed and tested I will move on to alerting.
+The API now is able to call all of the APIs asynchonously. I need to define the logic to determine whether to block the IP or not. Based on the logic I will develop other formulas to determine blocking for the following types of reports:
+    - Domain
+    - Hash
+    - URL
+
+Once everything is "fully working" I will start on the 
 
 ## ROADMAP:
-- IP data enrichment:
-    - VirusTotal
-    - AbuseIPDB
-    - GreyNoise
-    - Shodan
-- Domain data enrichment:
-    - VirusTotal
-- Hash data enrichment:
-    - VirusTotal
-- Automated Ansible playbooks:
-    - Firewall level block (opnsense/cisco ios)
-    - Endpoint level block (iptables/nftables)
-- Report tracking DB (PostgreSQL)
-- Report cache (Valkey)
-- Alert platforms:
-    - Slack
-    - Mattermost
-    - Teams
-    - PagerDuty(?)
-    - Signal
-- Containerized deployment
-- Web frontend for reviewing active reports
+Threat Intelligence Tools:
+    - [ ] VirusTotal (IP, Domain, Hash, URL)
+    - [ ] AbuseIPDB (IP)
+    - [ ] GreyNoise (IP)
+    - [ ] AlienVault OTX (IP, Domain, , Hash, URL)
+    - [ ] Shodan (IP, Domain)
+    - [ ] URLScan.io (IP, Domain, URL)
+    - [ ] Pulsedive (IP, Domain, Hash, URL)
+    - [ ] URLhause (Domain, URL)
+    - [ ] MalwareBazaar (Hash)
+    - [ ] ThreatFox (IP, Domain, Hash)
+    - [ ] Censys (IP, Domain)
+    - [ ] Google Safe Browsing (Domain, URL)
+    - [ ] Hybrid Analysis (Hash, URL)
+    - [ ] ANY.RUN (Hash, URL)
+    - [ ] IPQualtiyScore (IP, URL)
+    - [ ] IBM X-Force Exchange (IP, Domain, Hash, URL)
+    - [ ] Project Honey Pot (IP)
+    - [ ] CIRCL Hashlookup (Hash)
+
+Automated Response:
+    - Ansible playbooks:
+        - Endpoint level blocking (pf, iptables, nftables):
+            - [ ] pf
+            - [ ] nftables
+            - [ ] iptables
+        - Network level blocking (OpnSense, Cisco IOS)
+    - Alert platforms:
+        - [ ] Slack
+        - [ ] Mattermost
+        - [ ] Signal
+        - [ ] Teams(?)
+        - [ ] PagerDuty(?)
+
+Databases:
+    - [ ] Postgresql (Report reviewing and retention) 
+    - [ ] Valkey (Response data caching)
+
+Deployment options:
+    - [ ] Baremetal
+    - [ ] Container (Podman, Kubernetes)
+
+Misc:
+    - Web frontend for viewing full report data
+
+## Resources:
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [Requests](https://requests.readthedocs.io/en/latest/)
+- [Pydantic](https://docs.pydantic.dev/latest/)
+- [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
+- [asyncio](https://docs.python.org/3/library/asyncio.html)
+- [typing](https://docs.python.org/3/library/typing.html)
