@@ -1,13 +1,9 @@
-# A simple SOAR API
-Personal project to develop an API based SOAR application
+# simple-soar
+A personal project to develop SOAR API based on aggregating data from external API providers.
 
 ## Current status:
-The API now is able to call all of the APIs asynchonously. I need to define the logic to determine whether to block the IP or not. Based on the logic I will develop other formulas to determine blocking for the following types of reports:
-- Domain
-- Hash
-- URL
-
-Once everything is "fully working" I will start on the 
+The API now is able to call all of the APIs asynchonously. The general logic has been determined for how to score an IP's threat rating. Once I am able to calulate based on the five sources I will work on adding the other three report types.
+Once everything is "fully working" I will add the automated response actions likely starting with a basic alert via one of the messaging platforms. Until I am able to setup a virtualized test environment I will not be able to test the ansible playbooks, so I will just use drafts to simulate the responses.
 
 # ROADMAP:
 ## Threat Intelligence Tools:
@@ -54,6 +50,7 @@ Once everything is "fully working" I will start on the
 
 ## Misc:
 - [ ] Web frontend for viewing full report data (Svelte + Tailwind?)
+- [ ] Internal analysis engine?
 
 # Resources:
 - [FastAPI](https://fastapi.tiangolo.com/)
