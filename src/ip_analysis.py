@@ -6,7 +6,6 @@ from src.api_scanners.greynoise_scan import gn_scan_ip_address
 from src.api_scanners.shodan_scan import shodan_scan_ip_address
 from src.api_scanners.alien_vault_scan import av_scan_ip_address
 
-
 '''
 Each calculationg is based on a max potential score of 100
 The total threshold for each API will be 100, so the total will be based on the 
@@ -21,7 +20,7 @@ def calculate_vt_rating(vt_results):
     if not vt_results:
         return 0.0
 
-    verdict = vt_results.get("vt_verdict", {})
+    verdict = vt_results.get("verdict", {})
     malicious_engines = verdict.get("malicious_score", 0)
     suspicious_engines = verdict.get("suspicious_score", 0)
     community_reputation = verdict.get("community_reputation", 0)
@@ -35,7 +34,7 @@ def calculate_vt_rating(vt_results):
 
     if community_reputation < 0:
         # Restrics the community rating to only contributing a max value of 25.0
-        community_reputation_rating = min(abs(community_reputation_rating), 25.0)
+        community_reputation_rating = min(abs(community_reputation), 25.0)
         threat_rating += community_reputation_rating
 
     # Prevents a single API result from dicating the verdict too heavily
@@ -44,7 +43,18 @@ def calculate_vt_rating(vt_results):
     return round(threat_rating, 2)
     
 def calculate_aipdb_rating(aipdb_results):
-    return 0.0
+    '''
+    This is very simple as abuse ipdb uses a rating system from 0-100
+    '''
+    threat_rating = 0.0
+    
+    if not aipdb_results:
+        return 0.0
+    
+    verdict = aipdb_results.get("verdict", {})
+    threat_rating = verdict.get("abuse_score", 0)
+
+    return threat_rating
 
 def calculate_gn_rating(gn_results):
     return 0.0
@@ -64,16 +74,14 @@ def analyze_ip_scan_results(results):
     shodan_rating = calculate_shodan_rating(shodan_results)
     av_rating = calculate_av_rating(av_results)
 
-    final_ip_rating = \
-        vt_rating + \
-        aipdb_rating + \
-        gn_rating + \
-        shodan_rating + \
-        av_rating
-
-    return final_ip_rating
+    final_rating = (vt_rating + aipdb_rating + gn_rating + shodan_rating + av_rating) / 5
+    
+    return final_rating
 
 async def initiate_ip_scans(ip_address,env_variables):
+    block = False
+    final_rating = 0
+
     results = await asyncio.gather(
             asyncio.to_thread(vt_scan_ip_address, ip_address, env_variables.VT_API_KEY),
             asyncio.to_thread(aipdb_scan_ip_address, ip_address, env_variables.AIPDB_API_KEY),
@@ -88,17 +96,15 @@ async def initiate_ip_scans(ip_address,env_variables):
     # Requires tuning
     if final_rating > 80:
         block = True
-
-    # return {
-    #   ip: ip_address,
-    #   block: block,
-    #   threat_score: final_rating
-    # }
+    else:
+        block = False
 
     return {
         "vt_results": vt_results,
         "aipdb_results": aipdb_results,
         "gn_results": gn_results,
         "shodan_results": shodan_results,
-        "av_results": av_results
+        "av_results": av_results,
+        "final_rating": final_rating,
+        "block": block
     }

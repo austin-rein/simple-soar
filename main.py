@@ -21,12 +21,13 @@ async def scan_ip_address(ip_address):
     gn_results = scan_results["gn_results"]
     shodan_results = scan_results["shodan_results"]
     av_results = scan_results["av_results"]
-    vt_malicious_count = vt_results['verdict']['malicious_score']
+    threat_score = scan_results["final_rating"]
+    block = scan_results["block"]
 
     return {
         "ip" : ip_address,
-        "block": vt_malicious_count > 0,
-        "threat_score": vt_malicious_count,
+        "block": block,
+        "threat_score": threat_score,
         "vt_verdict": vt_results.get('verdict', {"error": "Data unavailable"}),
         "vt_context": vt_results.get('context', {"error": "Data unavailable"}),
         "aipdb_verdict": aipdb_results.get('verdict', {"error": "Data unavailable"}),

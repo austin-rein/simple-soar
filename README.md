@@ -53,7 +53,7 @@ Once everything is "fully working" I will start on the
 - [ ] Container (Podman, Kubernetes)
 
 ## Misc:
-- Web frontend for viewing full report data (Svelte + Tailwind?)
+- [ ] Web frontend for viewing full report data (Svelte + Tailwind?)
 
 # Resources:
 - [FastAPI](https://fastapi.tiangolo.com/)
