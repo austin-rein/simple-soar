@@ -18,7 +18,7 @@ def calculate_vt_rating(vt_results):
     threat_rating = 0.0
 
     if not vt_results:
-        return 0.0
+        return None
 
     verdict = vt_results.get("verdict", {})
     malicious_engines = verdict.get("malicious_score", 0)
@@ -43,9 +43,7 @@ def calculate_vt_rating(vt_results):
     return round(threat_rating, 2)
     
 def calculate_aipdb_rating(aipdb_results):
-    '''
-    This is very simple as abuse ipdb uses a rating system from 0-100
-    '''
+    # This is very simple as abuse ipdb uses a rating system from 0-100
     threat_rating = 0.0
     
     if not aipdb_results:
@@ -57,26 +55,45 @@ def calculate_aipdb_rating(aipdb_results):
     return threat_rating
 
 def calculate_gn_rating(gn_results):
-    return 0.0
+    threat_rating = 0.0
+
+    if not gn_results:
+        return None
+    
+    return None
 
 def calculate_shodan_rating(shodan_results):
-    return 0.0
+    return None
 
 def calculate_av_rating(av_results):
-    return 0.0
+    return None
 
 def analyze_ip_scan_results(results):
-    vt_results, aipdb_results, gn_results, shodan_results, av_results = results
-
-    vt_rating = calculate_vt_rating(vt_results)
-    aipdb_rating = calculate_aipdb_rating(aipdb_results)
-    gn_rating = calculate_gn_rating(gn_results)
-    shodan_rating = calculate_shodan_rating(shodan_results)
-    av_rating = calculate_av_rating(av_results)
-
-    final_rating = (vt_rating + aipdb_rating + gn_rating + shodan_rating + av_rating) / 5
+    total_rating = 0.0
+    number_of_hits = 0
     
-    return final_rating
+    calculation_functions = [
+        calculate_vt_rating,
+        calculate_aipdb_rating,
+        calculate_gn_rating,
+        calculate_shodan_rating,
+        calculate_av_rating,
+    ]
+
+    for calculation_function, result in zip(calculation_functions, results):
+        rating = calculation_function(result)
+
+        if rating is not None:
+            total_rating += rating
+            number_of_hits += 1
+        
+    if number_of_hits == 0:
+        return 0.0
+    
+    final_rating = total_rating / number_of_hits
+
+    return round(final_rating, 2)
+    
 
 async def initiate_ip_scans(ip_address,env_variables):
     block = False
