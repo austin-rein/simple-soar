@@ -47,12 +47,12 @@ def calculate_aipdb_rating(aipdb_results):
     threat_rating = 0.0
     
     if not aipdb_results:
-        return 0.0
+        return None
     
     verdict = aipdb_results.get("verdict", {})
     threat_rating = verdict.get("abuse_score", 0)
 
-    return threat_rating
+    return round(threat_rating, 2)
 
 def calculate_gn_rating(gn_results):
     threat_rating = 0.0
@@ -60,7 +60,15 @@ def calculate_gn_rating(gn_results):
     if not gn_results:
         return None
     
-    return None
+    verdict = gn_results.get("verdict ", {})
+
+    if (verdict.get("rule_it_out", {}) == "true"):
+        return threat_rating
+
+    if (verdict.get("mass_scanner", {}) == "true"):
+        threat_rating = 25.0
+
+    return threat_rating
 
 def calculate_shodan_rating(shodan_results):
     return None
